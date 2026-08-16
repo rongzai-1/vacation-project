@@ -171,7 +171,9 @@
   .type-card .trow b{ color:var(--ink); font-weight:700; }
   .type-card .tbar{ height:5px; border-radius:3px; background:var(--bg-card-2); margin-top:8px; overflow:hidden; }
   .type-card .tbar i{ display:block; height:100%; background:var(--tcolor,var(--olive)); }
-  .type-del{ background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:14px; line-height:1; padding:2px; }
+  .type-actions{ display:flex; align-items:center; gap:3px; }
+  .type-edit,.type-del{ background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:13px; line-height:1; padding:3px; }
+  .type-edit:hover{ color:var(--olive-dark); }
   .type-del:hover{ color:var(--stamp); }
   .used-up-tag{ font-size:9.5px; font-weight:700; color:var(--stamp); background:var(--stamp-pale); border-radius:100px; padding:1px 6px; vertical-align:middle; }
   .add-type{ display:flex; align-items:center; justify-content:center; border:1px dashed var(--line-strong); border-radius:var(--radius); color:var(--ink-soft); font-size:13px; cursor:pointer; background:none; min-height:96px; }
@@ -206,7 +208,9 @@
   .tag-done{ background:var(--bg-card-2); color:var(--ink-faint); }
   .tag-upcoming{ background:var(--olive-pale); color:var(--olive-dark); }
   .tag-now{ background:var(--stamp-pale); color:var(--stamp); }
-  .entry-del{ background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:15px; padding:2px 4px;}
+  .entry-actions{ display:flex; align-items:center; gap:2px; margin-left:4px; }
+  .entry-edit,.entry-del{ background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:14px; padding:3px 4px;}
+  .entry-edit:hover{ color:var(--olive-dark); }
   .entry-del:hover{ color:var(--stamp); }
   .empty-note{ font-size:13px; color:var(--ink-faint); padding:18px 4px; text-align:center; border:1px dashed var(--line); border-radius:var(--radius); }
 
@@ -216,18 +220,18 @@
   .cal-nav .cal-title{ font-family:'Black Han Sans',sans-serif; font-size:17px; }
   .cal-nav button{ background:none; border:1px solid var(--line-strong); border-radius:3px; width:30px; height:30px; cursor:pointer; font-size:14px; color:var(--ink);}
   .cal-nav button:hover{ background:var(--bg-card-2); }
-  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
-  .cal-dow{ font-family:'Space Mono',monospace; font-size:10.5px; text-align:center; color:var(--ink-faint); padding-bottom:4px; }
-  .cal-cell{ aspect-ratio:1/0.95; border:1px solid var(--line); border-radius:3px; padding:5px 5px 4px; position:relative; background:var(--bg-card-2); cursor:pointer; display:flex; flex-direction:column; }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .cal-dow{ font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:700; text-align:center; color:var(--ink-soft); padding:2px 0 6px; }
+  .cal-cell{ min-height:96px; border:1px solid var(--line); border-radius:4px; padding:7px 7px 6px; position:relative; background:var(--bg-card-2); cursor:pointer; display:flex; flex-direction:column; }
   .cal-cell.empty{ visibility:hidden; }
   .cal-cell:hover{ border-color:var(--line-strong); }
-  .cal-cell .dnum{ font-family:'Space Mono',monospace; font-size:11.5px; color:var(--ink-soft); }
+  .cal-cell .dnum{ font-family:'Space Mono',monospace; font-size:13px; color:var(--ink-soft); font-weight:700; }
   .cal-cell.today{ box-shadow:inset 0 0 0 2px var(--stamp); }
   .cal-cell.today .dnum{ color:var(--stamp); font-weight:700; }
   .cal-cell.selstart{ box-shadow:inset 0 0 0 2px var(--olive); background:var(--olive-pale); }
   .cal-cell.selend{ box-shadow:inset 0 0 0 2px var(--stamp); background:var(--stamp-pale); }
   .cal-cell.holiday .dnum{ color:var(--stamp); font-weight:700; }
-  .cal-cell .hname{ font-size:8.5px; color:var(--stamp); line-height:1.2; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cal-cell .hname{ font-size:9.5px; color:var(--stamp); line-height:1.25; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:700; }
   .cal-cell.discharge{ box-shadow:inset 0 0 0 2px var(--gold); background:var(--gold-pale); }
   .cal-cell.discharge .dnum{ color:var(--gold); font-weight:700; }
   .cal-cell.discharge .hname{ color:var(--gold); font-weight:700; }
@@ -237,8 +241,9 @@
   .cal-grid > *:nth-child(7n+1) .dnum{ color:var(--stamp); }
   .cal-dow:nth-child(7n+1){ color:var(--stamp); }
   .cal-dow:nth-child(7n){ color:var(--steel); }
-  .cal-marks{ margin-top:auto; display:flex; flex-wrap:wrap; gap:2px; }
-  .cal-marks span{ width:6px; height:6px; border-radius:50%; display:inline-block; }
+  .cal-marks{ margin-top:auto; display:flex; flex-direction:column; gap:3px; align-items:stretch; }
+  .cal-marks .cal-event-mark{ display:block; width:100%; border-left:3px solid var(--olive); border-radius:3px; background:rgba(255,255,255,.55); padding:2px 4px; font-size:9px; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink); }
+  .cal-marks .cal-more{ display:block; font-size:9px; color:var(--ink-faint); padding-left:3px; }
   .cal-legend{ display:flex; flex-wrap:wrap; gap:14px; margin-top:14px; padding-top:12px; border-top:1px solid var(--line); }
   .cal-legend .li{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-soft); }
   .cal-legend .dot{ width:8px; height:8px; border-radius:50%; }
@@ -250,8 +255,28 @@
   .team-off-card .desc{ margin-bottom:16px; }
   .team-legend-chip{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-soft); }
   .team-legend-chip .dot{ width:9px; height:9px; border-radius:50%; }
-  .cal-cell .team-marks{ margin-top:auto; display:flex; flex-wrap:wrap; gap:2px; }
-  .cal-cell .team-marks span{ width:6px; height:6px; border-radius:50%; display:inline-block; }
+  .cal-cell .team-marks{ margin-top:auto; display:flex; flex-direction:column; gap:3px; align-items:stretch; }
+  .cal-cell .team-marks span{ display:block; width:100%; border-radius:3px; padding:2px 4px; font-size:9.5px; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; background:var(--olive-pale); }
+  .cal-cell .team-discharge-mark{ background:var(--gold-pale); color:var(--gold); border:1px solid rgba(169,129,47,.25); font-weight:700; }
+  .cal-cell .team-leave-mark{ color:var(--ink); border:1px solid rgba(42,44,34,.08); }
+  .team-day-detail .team-detail-item{ padding:5px 0; border-bottom:1px dashed var(--line); }
+  .team-day-detail .team-detail-item:last-child{ border-bottom:none; }
+  .team-day-detail .team-detail-label{ font-weight:700; }
+  .team-day-detail .team-detail-sub{ color:var(--ink-soft); font-size:11.5px; }
+  .team-legend-discharge{ color:var(--gold); font-weight:700; }
+
+
+  /* ---------- Edit modals ---------- */
+  .modal-backdrop{ position:fixed; inset:0; background:rgba(42,44,34,.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:1000; }
+  .modal{ width:min(460px,100%); background:var(--bg-card); border:1px solid var(--line-strong); border-radius:6px; box-shadow:0 18px 50px rgba(42,44,34,.28); padding:20px; }
+  .modal h3{ margin:0 0 6px; font-size:18px; }
+  .modal .modal-desc{ margin:0 0 16px; color:var(--ink-soft); font-size:12px; line-height:1.5; }
+  .modal label{ display:block; font-size:11.5px; font-weight:700; color:var(--ink-soft); margin:10px 0 5px; }
+  .modal input,.modal select{ width:100%; padding:9px 10px; font-size:13.5px; border:1px solid var(--line-strong); border-radius:3px; background:#fff; font-family:'Noto Sans KR',sans-serif; }
+  .modal .modal-actions{ display:flex; gap:8px; margin-top:18px; }
+  .modal .modal-actions button{ flex:1; }
+  .modal-close{ float:right; border:0; background:none; color:var(--ink-faint); font-size:18px; cursor:pointer; }
+  @media (max-width:640px){ .cal-cell{ min-height:82px; padding:6px; } .cal-cell .team-marks span{ font-size:8.5px; } }
 
   .hidden{ display:none !important; }
 </style>
@@ -379,7 +404,7 @@
 
       <div class="card team-off-card" id="teamOffCard">
         <h2>친구들과 하나의 휴가방을 사용하세요</h2>
-        <p class="desc">공유방을 만들고 <b>공유 코드 + 비밀번호</b>를 친구에게 보내면 같은 캘린더에서 서로의 휴가를 확인할 수 있어요.</p>
+        <p class="desc">공유방을 만들고 <b>공유 코드 + 비밀번호</b>를 친구에게 보내면 같은 캘린더에서 서로의 휴가와 전역일을 확인할 수 있어요.</p>
         <div class="share-grid">
           <div class="share-option">
             <h3>공유방 만들기</h3>
@@ -431,7 +456,7 @@
           </div>
           <div class="cal-grid" id="teamCalGrid"></div>
           <div class="cal-legend" id="teamLegend"></div>
-          <div class="team-day-detail" id="teamDayDetail">날짜를 클릭하면 그날 휴가 중인 팀원을 볼 수 있어요.</div>
+          <div class="team-day-detail" id="teamDayDetail">날짜를 클릭하면 그날 휴가·전역 일정의 상세 내용을 볼 수 있어요.</div>
           <p class="cal-hint" id="teamStatusHint">-</p>
         </div>
         <div class="share-code-box">
@@ -448,7 +473,45 @@
 
   </div>
 
-  <footer class="pagefoot">개인 데이터는 이 브라우저에 저장되고, 공유방 데이터는 Firebase를 통해 팀원 간 동기화됩니다. 공유 코드는 친구에게 전달하고 비밀번호는 별도로 관리하세요.</footer>
+
+  <!-- EDIT MODALS -->
+  <div class="modal-backdrop hidden" id="typeEditModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="typeEditTitle">
+      <button class="modal-close" id="typeEditClose" aria-label="닫기">×</button>
+      <h3 id="typeEditTitle">휴가 종류 수정</h3>
+      <p class="modal-desc">이미 등록한 휴가 기록은 그대로 유지하면서 휴가 종류의 이름과 배정 일수를 수정합니다.</p>
+      <label for="editTypeName">휴가 종류 이름</label>
+      <input type="text" id="editTypeName" autocomplete="off">
+      <label for="editTypeDays">배정 일수</label>
+      <input type="number" id="editTypeDays" min="0" max="999">
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="typeEditCancel">취소</button>
+        <button class="btn btn-primary" id="typeEditSave">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="entryEditModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="entryEditTitle">
+      <button class="modal-close" id="entryEditClose" aria-label="닫기">×</button>
+      <h3 id="entryEditTitle">등록한 휴가 수정</h3>
+      <p class="modal-desc">기존 휴가를 삭제하지 않고 종류, 날짜, 메모를 바로 수정할 수 있습니다.</p>
+      <label for="editEntryType">휴가 종류</label>
+      <select id="editEntryType"></select>
+      <label for="editEntryStart">시작일</label>
+      <input type="date" id="editEntryStart">
+      <label for="editEntryEnd">종료일</label>
+      <input type="date" id="editEntryEnd">
+      <label for="editEntryNote">메모 (선택)</label>
+      <input type="text" id="editEntryNote" autocomplete="off">
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="entryEditCancel">취소</button>
+        <button class="btn btn-primary" id="entryEditSave">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="pagefoot">개인 데이터는 이 브라우저에 저장되고, 공유방 데이터는 Firebase를 통해 팀원 간 동기화됩니다. 휴가 기록은 수정·삭제할 수 있으며 공유 달력에는 팀원의 전역일도 표시됩니다.</footer>
 </div>
 
 <script type="module">
@@ -550,6 +613,8 @@ const db = getFirestore(firebaseApp);
   let teamData = {};
   let pendingStart = null;
   let addingType = false;
+  let editingTypeId = null;
+  let editingEntryId = null;
 
   const STORE_KEY = 'leave-data';
 
@@ -591,6 +656,9 @@ const db = getFirestore(firebaseApp);
       }
     }catch(e){ /* no existing data yet */ }
     render();
+    if(state.settings && state.settings.sharedOn && state.settings.myName && state.settings.roomKey){
+      try{ await saveMyTeamData(); }catch(e){ console.error('공유 프로필 동기화 실패', e); }
+    }
   }
 
   async function save(){
@@ -684,9 +752,9 @@ const db = getFirestore(firebaseApp);
   }
 
   /* ---------------- Dashboard stats ---------------- */
-  function computeTypeUsage(typeId){
+  function computeTypeUsage(typeId, excludeEntryId=null){
     let used=0, scheduled=0;
-    state.entries.filter(e=>e.typeId===typeId).forEach(e=>{
+    state.entries.filter(e=>e.typeId===typeId && e.id!==excludeEntryId).forEach(e=>{
       const s = fromISO(e.start), en = fromISO(e.end);
       const days = diffDays(en,s)+1;
       if(en < today) used += days;
@@ -773,6 +841,9 @@ const db = getFirestore(firebaseApp);
     grid.querySelectorAll('[data-del-type]').forEach(btn=>{
       btn.addEventListener('click', ()=>deleteLeaveType(btn.dataset.delType));
     });
+    grid.querySelectorAll('[data-edit-type]').forEach(btn=>{
+      btn.addEventListener('click', ()=>openTypeEdit(btn.dataset.editType));
+    });
 
     $('summaryCard').innerHTML = `
       <div class="summary-grid">
@@ -789,10 +860,46 @@ const db = getFirestore(firebaseApp);
 
   async function deleteLeaveType(id){
     const inUse = state.entries.some(e=>e.typeId===id);
-    if(inUse){ alert('이 종류로 등록된 휴가가 있어 삭제할 수 없습니다. 먼저 해당 휴가 기록을 삭제하세요.'); return; }
+    if(inUse){ alert('이 종류로 등록된 휴가가 있어 삭제할 수 없습니다. 먼저 해당 휴가 기록을 삭제하세요. 기존 휴가를 수정하거나 다른 종류로 변경한 뒤 삭제할 수 있어요.'); return; }
+    const type=state.leaveTypes.find(t=>t.id===id);
+    if(!type) return;
+    if(!confirm(`'${type.name}' 휴가 종류를 삭제할까요?`)) return;
     state.leaveTypes = state.leaveTypes.filter(t=>t.id!==id);
     await save(); render();
   }
+
+  function openTypeEdit(id){
+    const type=state.leaveTypes.find(t=>t.id===id);
+    if(!type) return;
+    editingTypeId=id;
+    $('editTypeName').value=type.name;
+    $('editTypeDays').value=type.allotted;
+    $('typeEditModal').classList.remove('hidden');
+    setTimeout(()=>$('editTypeName').focus(),0);
+  }
+  function closeTypeEdit(){
+    editingTypeId=null;
+    $('typeEditModal').classList.add('hidden');
+  }
+  $('typeEditClose').addEventListener('click',closeTypeEdit);
+  $('typeEditCancel').addEventListener('click',closeTypeEdit);
+  $('typeEditModal').addEventListener('click',e=>{ if(e.target.id==='typeEditModal') closeTypeEdit(); });
+  $('typeEditSave').addEventListener('click',async()=>{
+    if(!editingTypeId) return;
+    const type=state.leaveTypes.find(t=>t.id===editingTypeId);
+    if(!type) return;
+    const name=$('editTypeName').value.trim();
+    const allotted=Number($('editTypeDays').value);
+    if(!name){ alert('휴가 종류 이름을 입력하세요.'); return; }
+    if(!Number.isFinite(allotted) || allotted<0){ alert('배정 일수는 0일 이상으로 입력하세요.'); return; }
+    const duplicate=state.leaveTypes.some(t=>t.id!==type.id && t.name.trim()===name);
+    if(duplicate){ alert('같은 이름의 휴가 종류가 이미 있습니다.'); return; }
+    type.name=name;
+    type.allotted=Math.floor(allotted);
+    closeTypeEdit();
+    await save();
+    render();
+  });
 
   /* ---------------- Entry form & list ---------------- */
   function renderEntryTypeOptions(){
@@ -889,16 +996,73 @@ const db = getFirestore(firebaseApp);
         </div>
         <div class="entry-days">${days}일</div>
         ${tag}
-        <button class="entry-del" data-del-entry="${e.id}" title="삭제">✕</button>
+        <div class="entry-actions">
+          <button class="entry-edit" data-edit-entry="${e.id}" title="휴가 수정">✎</button>
+          <button class="entry-del" data-del-entry="${e.id}" title="삭제">✕</button>
+        </div>
       </div>`;
     }).join('');
+    list.querySelectorAll('[data-edit-entry]').forEach(btn=>{
+      btn.addEventListener('click', ()=>openEntryEdit(btn.dataset.editEntry));
+    });
     list.querySelectorAll('[data-del-entry]').forEach(btn=>{
       btn.addEventListener('click', async ()=>{
+        const target=state.entries.find(x=>x.id===btn.dataset.delEntry);
+        if(!target) return;
+        if(!confirm('이 휴가 기록을 삭제할까요?')) return;
         state.entries = state.entries.filter(x=>x.id!==btn.dataset.delEntry);
         await save(); render();
       });
     });
   }
+
+  function openEntryEdit(id){
+    const entry=state.entries.find(e=>e.id===id);
+    if(!entry) return;
+    editingEntryId=id;
+    $('editEntryType').innerHTML=state.leaveTypes.map(t=>`<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+    $('editEntryType').value=entry.typeId;
+    $('editEntryStart').value=entry.start;
+    $('editEntryEnd').value=entry.end;
+    $('editEntryNote').value=entry.note||'';
+    $('entryEditModal').classList.remove('hidden');
+    setTimeout(()=>$('editEntryStart').focus(),0);
+  }
+  function closeEntryEdit(){
+    editingEntryId=null;
+    $('entryEditModal').classList.add('hidden');
+  }
+  $('entryEditClose').addEventListener('click',closeEntryEdit);
+  $('entryEditCancel').addEventListener('click',closeEntryEdit);
+  $('entryEditModal').addEventListener('click',e=>{ if(e.target.id==='entryEditModal') closeEntryEdit(); });
+  $('entryEditSave').addEventListener('click',async()=>{
+    if(!editingEntryId) return;
+    const entry=state.entries.find(e=>e.id===editingEntryId);
+    if(!entry) return;
+    const typeId=$('editEntryType').value;
+    const start=$('editEntryStart').value;
+    const end=$('editEntryEnd').value;
+    const note=$('editEntryNote').value.trim();
+    if(!typeId||!start||!end){ alert('휴가 종류, 시작일, 종료일을 모두 입력하세요.'); return; }
+    if(fromISO(end)<fromISO(start)){ alert('종료일이 시작일보다 빠릅니다.'); return; }
+    const days=diffDays(fromISO(end),fromISO(start))+1;
+    const type=state.leaveTypes.find(t=>t.id===typeId);
+    if(state.settings.blockOverLimit && type && type.allotted>0){
+      const usage=computeTypeUsage(typeId, editingEntryId);
+      const remaining=type.allotted-usage.used-usage.scheduled;
+      if(days>remaining){
+        alert(`'${type.name}' 잔여 일수는 ${Math.max(0,remaining)}일인데 ${days}일을 입력했습니다. 잔여 일수를 초과하므로 수정할 수 없습니다. 상단의 "잔여 일수를 초과하면 등록을 막기" 옵션을 끄면 이 제한을 해제할 수 있어요.`);
+        return;
+      }
+    }
+    entry.typeId=typeId;
+    entry.start=start;
+    entry.end=end;
+    entry.note=note;
+    closeEntryEdit();
+    await save();
+    render();
+  });
 
   function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
@@ -932,7 +1096,7 @@ const db = getFirestore(firebaseApp);
       state.entries.forEach(e=>{
         if(fromISO(e.start)<=cellDate && cellDate<=fromISO(e.end)){
           const t = state.leaveTypes.find(x=>x.id===e.typeId);
-          if(t) marks.push(t.color);
+          if(t) marks.push({color:t.color,name:t.name});
         }
       });
       const cell = document.createElement('div');
@@ -944,7 +1108,9 @@ const db = getFirestore(firebaseApp);
       if(holidayName) titleParts.push(holidayName);
       if(titleParts.length) cell.title = titleParts.join(' · ');
       const label = isDischarge ? '전역' : (isPayday ? '월급' : (holidayName ? holidayShort(holidayName) : ''));
-      cell.innerHTML = `<span class="dnum">${day}</span>${label?`<span class="hname">${label}</span>`:''}<div class="cal-marks">${marks.slice(0,4).map(c=>`<span style="background:${c}"></span>`).join('')}</div>`;
+      const visibleMarks=marks.slice(0,2);
+      const moreMarks=marks.length>2?`<span class="cal-more">+${marks.length-2}</span>`:'';
+      cell.innerHTML = `<span class="dnum">${day}</span>${label?`<span class="hname">${label}</span>`:''}<div class="cal-marks">${visibleMarks.map(v=>`<span class="cal-event-mark" style="border-left-color:${v.color}" title="${escapeHtml(v.name)}">${escapeHtml(v.name)}</span>`).join('')}${moreMarks}</div>`;
       grid.appendChild(cell);
     }
 
@@ -999,10 +1165,14 @@ const db = getFirestore(firebaseApp);
     const mineSnap=await getDoc(mineRef);
     const existing=mineSnap.exists()?mineSnap.data():null;
     const color=existing?.color || state.settings.myColor || PALETTE[teamRoster.length % PALETTE.length];
+    const dischargeDate=state.profile
+      ? toISO(addServicePeriod(fromISO(state.profile.enlistDate), state.profile.serviceMonths))
+      : null;
     await setDoc(mineRef,{
       name:state.settings.myName,
       color,
       uid:currentUser.uid,
+      dischargeDate,
       createdAt:existing?.createdAt || Date.now(),
       updatedAt:serverTimestamp()
     },{merge:true});
@@ -1068,20 +1238,32 @@ const db = getFirestore(firebaseApp);
       const data=teamData[mem.id];
       if(!data) return;
       (data.entries||[]).forEach(e=>{
-        if(fromISO(e.start)<=cellDate && cellDate<=fromISO(e.end)){
+        if(e.start && e.end && fromISO(e.start)<=cellDate && cellDate<=fromISO(e.end)){
           people.push({name:mem.name,color:mem.color,type:e.type,start:e.start,end:e.end});
         }
       });
     });
     return people;
   }
+  function teamDischargesOnDate(iso){
+    return teamRoster.filter(mem=>mem.dischargeDate===iso).map(mem=>({
+      name:mem.name, color:mem.color, date:iso
+    }));
+  }
   function showTeamDayDetail(iso){
-    const people=teamPeopleOnDate(iso), d=fromISO(iso), holidayName=HOLIDAYS[iso];
-    if(!people.length){
-      $('teamDayDetail').innerHTML=`<strong>${fmtDate(d)}</strong> · 등록된 팀원 휴가가 없습니다.${holidayName?` <span class="hint">(${escapeHtml(holidayName)})</span>`:''}`;
+    const people=teamPeopleOnDate(iso), discharges=teamDischargesOnDate(iso), d=fromISO(iso), holidayName=HOLIDAYS[iso];
+    const items=[];
+    discharges.forEach(p=>{
+      items.push(`<div class="team-detail-item"><div class="team-detail-label" style="color:var(--gold)">🎖 ${escapeHtml(p.name)} 전역</div><div class="team-detail-sub">${fmtDate(d)} 전역 예정</div></div>`);
+    });
+    people.forEach(p=>{
+      items.push(`<div class="team-detail-item"><div class="team-detail-label" style="color:${p.color}">● ${escapeHtml(p.name)} · ${escapeHtml(p.type)}</div><div class="team-detail-sub">${fmtDate(fromISO(p.start))} ~ ${fmtDate(fromISO(p.end))}</div></div>`);
+    });
+    if(!items.length){
+      $('teamDayDetail').innerHTML=`<strong>${fmtDate(d)}</strong> · 등록된 팀원 일정이 없습니다.${holidayName?` <span class="hint">(${escapeHtml(holidayName)})</span>`:''}`;
       return;
     }
-    $('teamDayDetail').innerHTML=`<strong>${fmtDate(d)}</strong> · ${people.length}명 휴가<br>${people.map(p=>`<span style="color:${p.color};font-weight:700">● ${escapeHtml(p.name)}</span> · ${escapeHtml(p.type)} (${fmtDate(fromISO(p.start))}~${fmtDate(fromISO(p.end))})`).join('<br>')}`;
+    $('teamDayDetail').innerHTML=`<strong>${fmtDate(d)}</strong>${holidayName?` · <span class="hint">${escapeHtml(holidayName)}</span>`:''}${items.join('')}`;
   }
   function renderTeamCalendar(){
     if(!state.settings.sharedOn) return;
@@ -1091,15 +1273,24 @@ const db = getFirestore(firebaseApp);
     grid.innerHTML=DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
     for(let i=0;i<firstDow;i++) grid.innerHTML+=`<div class="cal-cell empty"></div>`;
     for(let day=1;day<=daysInMonth;day++){
-      const cellDate=new Date(y,m,day),iso=toISO(cellDate),isToday=diffDays(cellDate,today)===0,holidayName=HOLIDAYS[iso],people=teamPeopleOnDate(iso);
+      const cellDate=new Date(y,m,day),iso=toISO(cellDate),isToday=diffDays(cellDate,today)===0,holidayName=HOLIDAYS[iso];
+      const people=teamPeopleOnDate(iso),discharges=teamDischargesOnDate(iso);
       const cell=document.createElement('div');
       cell.className=`cal-cell ${isToday?'today':''} ${holidayName?'holiday':''}`;
       cell.dataset.date=iso;
-      cell.innerHTML=`<span class="dnum">${day}</span>${holidayName?`<span class="hname">${holidayShort(holidayName)}</span>`:''}<div class="team-marks">${people.slice(0,6).map(p=>`<span style="background:${p.color}"></span>`).join('')}</div>`;
+      const events=[
+        ...discharges.map(p=>`<span class="team-discharge-mark" title="${escapeHtml(p.name)} 전역">🎖 ${escapeHtml(p.name)} 전역</span>`),
+        ...people.map(p=>`<span class="team-leave-mark" style="border-left:3px solid ${p.color}" title="${escapeHtml(p.name)} · ${escapeHtml(p.type)}">${escapeHtml(p.name)} · ${escapeHtml(p.type)}</span>`)
+      ];
+      const visibleEvents=events.slice(0,3);
+      const more=events.length>3?`<span class="team-leave-mark" style="color:var(--ink-faint)">+${events.length-3}명 더보기</span>`:'';
+      cell.innerHTML=`<span class="dnum">${day}</span>${holidayName?`<span class="hname">${holidayShort(holidayName)}</span>`:''}<div class="team-marks">${visibleEvents.join('')}${more}</div>`;
       cell.addEventListener('click',()=>showTeamDayDetail(iso));
       grid.appendChild(cell);
     }
-    $('teamLegend').innerHTML=teamRoster.length?teamRoster.map(mem=>`<div class="li team-legend-chip"><span class="dot" style="background:${mem.color}"></span>${escapeHtml(mem.name)}${mem.id===state.settings.memberId?' (나)':''}</div>`).join(''):`<span class="hint">아직 팀원이 없습니다.</span>`;
+    $('teamLegend').innerHTML=teamRoster.length
+      ? teamRoster.map(mem=>`<div class="li team-legend-chip"><span class="dot" style="background:${mem.color}"></span>${escapeHtml(mem.name)}${mem.id===state.settings.memberId?' (나)':''}${mem.dischargeDate?` <span class="team-legend-discharge">· 전역 ${escapeHtml(mem.dischargeDate.replaceAll('-','.'))}</span>`:''}</div>`).join('')
+      : `<span class="hint">아직 팀원이 없습니다.</span>`;
   }
 
   function openTeamForm(which){
@@ -1136,7 +1327,8 @@ const db = getFirestore(firebaseApp);
       await ensureFirebaseAuth();
       const roomKey=await makeRoomKey(code,password),memberId=uid();
       await setDoc(doc(db,'rooms',roomKey),{roomName,createdAt:serverTimestamp(),createdBy:currentUser.uid});
-      await setDoc(doc(db,'rooms',roomKey,'members',memberId),{name,color:PALETTE[0],uid:currentUser.uid,createdAt:Date.now(),updatedAt:serverTimestamp()});
+      const dischargeDate=state.profile ? toISO(addServicePeriod(fromISO(state.profile.enlistDate), state.profile.serviceMonths)) : null;
+      await setDoc(doc(db,'rooms',roomKey,'members',memberId),{name,color:PALETTE[0],uid:currentUser.uid,dischargeDate,createdAt:Date.now(),updatedAt:serverTimestamp()});
       await setDoc(doc(db,'rooms',roomKey,'members',memberId,'data','main'),{entries:[],updatedAt:serverTimestamp()});
       await activateRoom({code,password,roomName,name,roomKey,memberId});
     }catch(e){console.error(e);alert(`공유방을 만들지 못했습니다.\n${e.code||e.message||e}`);}
@@ -1149,7 +1341,8 @@ const db = getFirestore(firebaseApp);
       const roomKey=await makeRoomKey(code,password),rs=await getDoc(doc(db,'rooms',roomKey));
       if(!rs.exists()){alert('공유 코드 또는 비밀번호가 올바르지 않습니다.');return;}
       const memberId=uid(),snap=await getDocs(collection(db,'rooms',roomKey,'members')),color=PALETTE[snap.size%PALETTE.length];
-      await setDoc(doc(db,'rooms',roomKey,'members',memberId),{name,color,uid:currentUser.uid,createdAt:Date.now(),updatedAt:serverTimestamp()});
+      const dischargeDate=state.profile ? toISO(addServicePeriod(fromISO(state.profile.enlistDate), state.profile.serviceMonths)) : null;
+      await setDoc(doc(db,'rooms',roomKey,'members',memberId),{name,color,uid:currentUser.uid,dischargeDate,createdAt:Date.now(),updatedAt:serverTimestamp()});
       await setDoc(doc(db,'rooms',roomKey,'members',memberId,'data','main'),{entries:[],updatedAt:serverTimestamp()});
       await activateRoom({code,password,roomName:rs.data().roomName||'공유 휴가방',name,roomKey,memberId});
     }catch(e){console.error(e);alert(`공유방에 참여하지 못했습니다.\n${e.code||e.message||e}`);}
