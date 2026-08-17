@@ -279,6 +279,58 @@
   @media (max-width:640px){ .cal-cell{ min-height:82px; padding:6px; } .cal-cell .team-marks span{ font-size:8.5px; } }
 
   .hidden{ display:none !important; }
+
+  /* Multi-room + mobile responsive UI */
+  .room-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:14px;}
+  .room-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 14px;}
+  .room-card.active{border:2px solid var(--olive);}
+  .room-card .room-name{font-weight:700;font-size:14px;margin-bottom:4px;word-break:break-word;}
+  .room-card .room-code{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.05em;}
+  .room-card .room-meta{font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
+  .room-card .room-actions{display:flex;gap:7px;margin-top:10px;}
+  .room-card .room-actions .btn{flex:1;min-height:40px;}
+  .room-switcher{margin-top:14px;padding:12px;border:1px solid var(--line);background:var(--bg-card-2);border-radius:var(--radius);}
+  .room-switcher-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+  .room-switcher-head b{font-size:13px;}
+  .room-switcher-empty{font-size:12px;color:var(--ink-faint);padding:6px 0;}
+  @media (max-width:640px){
+    .wrap{padding:0 12px;}
+    body{padding-bottom:32px;}
+    header.top{padding:20px 0 14px;}
+    .card{padding:16px;margin-top:16px;}
+    .section{margin-top:26px;}
+    .section-head h2{font-size:17px;}
+    .field-row{grid-template-columns:1fr;}
+    .entry-form .grid4{grid-template-columns:1fr;}
+    .entry-form .grid4 > button{width:100%;min-height:44px;}
+    .entry-row{align-items:flex-start;flex-wrap:wrap;padding:11px 12px;gap:8px;}
+    .entry-main{width:calc(100% - 20px);}
+    .entry-days{margin-left:20px;}
+    .entry-tag{margin-left:auto;}
+    .entry-actions{width:100%;justify-content:flex-end;margin-left:0;border-top:1px dashed var(--line);padding-top:7px;}
+    .entry-edit,.entry-del,.type-edit,.type-del{min-width:38px;min-height:38px;font-size:16px;}
+    .type-grid{grid-template-columns:1fr;}
+    .summary-card{padding:14px;}
+    .summary-item .num{font-size:22px;}
+    .summary-item.remain .num{font-size:25px;}
+    .cal-card{padding:10px;}
+    .cal-grid{gap:3px;}
+    .cal-cell{min-height:72px;padding:5px 4px;}
+    .cal-cell .dnum{font-size:11px;}
+    .cal-cell .hname{font-size:8px;}
+    .cal-marks .cal-event-mark{font-size:7.5px;padding:2px 3px;border-left-width:2px;}
+    .cal-cell .team-marks span{font-size:7.5px;padding:2px 3px;}
+    .cal-nav button{width:40px;height:40px;min-width:40px;}
+    .share-code-box{grid-template-columns:1fr;}
+    .share-grid{grid-template-columns:1fr;}
+    .share-option .btn,.teamOnCard .btn{min-height:42px;}
+    .modal-backdrop{padding:10px;align-items:flex-end;}
+    .modal{max-height:90vh;overflow:auto;padding:16px;border-radius:8px 8px 4px 4px;}
+    .modal .modal-actions button{min-height:44px;}
+    .room-list{grid-template-columns:1fr;}
+    .room-card .room-actions{flex-direction:column;}
+  }
+
 </style>
 </head>
 <body>
@@ -468,6 +520,10 @@
           <button class="btn btn-danger btn-small" id="teamDisableBtn">이 공유방에서 나가기</button>
         </div>
         <p class="hint" style="margin-top:10px;">내 이름: <b id="teamMyNameLabel"></b> · 방 이름: <b id="teamRoomNameLabel"></b></p>
+        <div class="room-switcher">
+          <div class="room-switcher-head"><b>내 공유방</b><span class="hint">여러 방을 저장해 두고 전환할 수 있어요.</span></div>
+          <div id="roomList" class="room-list"></div>
+        </div>
       </div>
     </div>
 
@@ -606,7 +662,10 @@ const db = getFirestore(firebaseApp);
   const addServicePeriod = (d,m)=>{ const nd = addMonths(d,m); nd.setDate(nd.getDate()-1); return nd; };
   const fmtDate = (d)=> `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`;
 
-  let state = { profile:null, leaveTypes:[], entries:[], settings:{blockOverLimit:true, sharedOn:false, myName:'', myColor:'', roomCode:'', roomPassword:'', roomKey:'', roomName:'', memberId:''} };
+  let state = { profile:null, leaveTypes:[], entries:[], settings:{
+    blockOverLimit:true, sharedOn:false, myName:'', myColor:'', roomCode:'', roomPassword:'',
+    roomKey:'', roomName:'', memberId:'', rooms:[]
+  } };
   let calCursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let teamCalCursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let teamRoster = [];
@@ -652,7 +711,7 @@ const db = getFirestore(firebaseApp);
       if(res && res.value){
         const parsed = JSON.parse(res.value);
         state = Object.assign({profile:null, leaveTypes:[], entries:[], settings:{blockOverLimit:true, sharedOn:false, myName:'', myColor:'', roomCode:'', roomPassword:'', roomKey:'', roomName:'', memberId:''}}, parsed);
-        state.settings = Object.assign({blockOverLimit:true, sharedOn:false, myName:'', myColor:'', roomCode:'', roomPassword:'', roomKey:'', roomName:'', memberId:''}, parsed.settings||{});
+        state.settings = Object.assign({blockOverLimit:true, sharedOn:false, myName:'', myColor:'', roomCode:'', roomPassword:'', roomKey:'', roomName:'', memberId:'', rooms:[]}, parsed.settings||{});
       }
     }catch(e){ /* no existing data yet */ }
     render();
@@ -1304,15 +1363,123 @@ const db = getFirestore(firebaseApp);
     $('teamJoinForm').classList.add('hidden');
     $('teamOffCard').classList.remove('hidden');
   }
-  async function activateRoom({code,password,roomName,name,roomKey,memberId}){
+
+  function normalizeRooms(){
+    const rooms = Array.isArray(state.settings.rooms) ? state.settings.rooms : [];
+    if(!rooms.length && state.settings.roomKey && state.settings.memberId){
+      rooms.push({
+        roomKey:state.settings.roomKey, roomCode:state.settings.roomCode,
+        roomPassword:state.settings.roomPassword, roomName:state.settings.roomName||'공유 휴가방',
+        memberId:state.settings.memberId, myName:state.settings.myName||'',
+        myColor:state.settings.myColor||''
+      });
+    }
+    state.settings.rooms = rooms.filter(r=>r && r.roomKey && r.memberId);
+    return state.settings.rooms;
+  }
+
+  function renderRoomList(){
+    const list=$('roomList');
+    if(!list) return;
+    const rooms=normalizeRooms();
+    if(!rooms.length){
+      list.innerHTML='<div class="room-switcher-empty">저장된 공유방이 없습니다.</div>';
+      return;
+    }
+    list.innerHTML=rooms.map((r,i)=>{
+      const active=r.roomKey===state.settings.roomKey && r.memberId===state.settings.memberId;
+      return `<div class="room-card ${active?'active':''}">
+        <div class="room-name">${escapeHtml(r.roomName||'공유 휴가방')}</div>
+        <div class="room-code">${escapeHtml(r.roomCode||'')}</div>
+        <div class="room-meta">${escapeHtml(r.myName||'')} ${active?'· 현재 방':''}</div>
+        <div class="room-actions">
+          ${active ? '<button class="btn btn-ghost btn-small" disabled>현재 입장 중</button>'
+                   : `<button class="btn btn-primary btn-small" data-switch-room="${i}">입장하기</button>`}
+          <button class="btn btn-danger btn-small" data-leave-room="${i}">나가기</button>
+        </div>
+      </div>`;
+    }).join('');
+    list.querySelectorAll('[data-switch-room]').forEach(btn=>{
+      btn.addEventListener('click',()=>switchRoom(Number(btn.dataset.switchRoom)));
+    });
+    list.querySelectorAll('[data-leave-room]').forEach(btn=>{
+      btn.addEventListener('click',()=>leaveRoom(Number(btn.dataset.leaveRoom)));
+    });
+  }
+
+  async function switchRoom(index){
+    normalizeRooms();
+    const r=state.settings.rooms[index];
+    if(!r) return;
+    if(r.roomKey===state.settings.roomKey && r.memberId===state.settings.memberId) return;
+    clearTeamListeners();
     state.settings.sharedOn=true;
-    state.settings.roomCode=code; state.settings.roomPassword=password; state.settings.roomName=roomName||'공유 휴가방';
+    state.settings.roomCode=r.roomCode; state.settings.roomPassword=r.roomPassword;
+    state.settings.roomKey=r.roomKey; state.settings.roomName=r.roomName||'공유 휴가방';
+    state.settings.memberId=r.memberId; state.settings.myName=r.myName||''; state.settings.myColor=r.myColor||'';
+    await save();
+    await refreshTeamData();
+    watchTeamRoom();
+    render();
+  }
+
+  async function leaveRoom(index){
+    normalizeRooms();
+    const r=state.settings.rooms[index];
+    if(!r) return;
+    if(!confirm(`'${r.roomName||'공유 휴가방'}'에서 나갈까요?\n이 방에서 내 정보가 팀 달력에서 사라집니다.`)) return;
+    try{
+      await ensureFirebaseAuth();
+      await setDoc(doc(db,'rooms',r.roomKey,'members',r.memberId),{active:false,updatedAt:serverTimestamp()},{merge:true});
+      await setDoc(doc(db,'rooms',r.roomKey,'members',r.memberId,'data','main'),{entries:[],updatedAt:serverTimestamp()},{merge:true});
+
+      const wasCurrent=r.roomKey===state.settings.roomKey && r.memberId===state.settings.memberId;
+      state.settings.rooms.splice(index,1);
+
+      if(wasCurrent){
+        clearTeamListeners();
+        const next=state.settings.rooms[0];
+        if(next){
+          state.settings.sharedOn=true;
+          state.settings.roomCode=next.roomCode; state.settings.roomPassword=next.roomPassword;
+          state.settings.roomKey=next.roomKey; state.settings.roomName=next.roomName||'공유 휴가방';
+          state.settings.memberId=next.memberId; state.settings.myName=next.myName||''; state.settings.myColor=next.myColor||'';
+        }else{
+          state.settings.sharedOn=false; state.settings.roomCode=''; state.settings.roomPassword='';
+          state.settings.roomKey=''; state.settings.roomName=''; state.settings.memberId='';
+          state.settings.myColor=''; state.settings.myName='';
+        }
+      }
+
+      await save();
+      if(state.settings.sharedOn){ await refreshTeamData(); watchTeamRoom(); }
+      render();
+      alert('공유방에서 나왔습니다.');
+    }catch(e){
+      console.error(e);
+      alert(`공유방에서 나가지 못했습니다.\n${e.code||e.message||e}`);
+    }
+  }
+
+  async function activateRoom({code,password,roomName,name,roomKey,memberId}){
+    normalizeRooms();
+    const existing=state.settings.rooms.find(r=>r.roomKey===roomKey && r.memberId===memberId);
+    const roomObj={roomKey,roomCode:code,roomPassword:password,roomName:roomName||'공유 휴가방',
+      memberId,myName:name,myColor:existing?.myColor||''};
+    if(existing) Object.assign(existing,roomObj); else state.settings.rooms.push(roomObj);
+
+    clearTeamListeners();
+    state.settings.sharedOn=true;
+    state.settings.roomCode=code; state.settings.roomPassword=password; state.settings.roomName=roomObj.roomName;
     state.settings.roomKey=roomKey; state.settings.memberId=memberId; state.settings.myName=name;
+    state.settings.myColor=roomObj.myColor||'';
     await save();
     await refreshTeamData();
     watchTeamRoom();
     $('teamCreateForm').classList.add('hidden'); $('teamJoinForm').classList.add('hidden'); $('teamOnCard').classList.remove('hidden');
-    $('teamRoomCodeLabel').textContent=code; $('teamRoomPasswordLabel').textContent=password; $('teamRoomNameLabel').textContent=state.settings.roomName; $('teamMyNameLabel').textContent=name;
+    $('teamRoomCodeLabel').textContent=code; $('teamRoomPasswordLabel').textContent=password;
+    $('teamRoomNameLabel').textContent=state.settings.roomName; $('teamMyNameLabel').textContent=name;
+    renderRoomList();
     showTeamDayDetail(toISO(today));
   }
   $('teamCreateBtn').addEventListener('click',()=>openTeamForm('create'));
@@ -1352,30 +1519,9 @@ const db = getFirestore(firebaseApp);
     try{await navigator.clipboard.writeText(text);alert('공유 정보가 복사되었습니다.');}catch(e){prompt('아래 내용을 복사해 친구에게 보내세요.',text);}
   });
   $('teamDisableBtn').addEventListener('click',async()=>{
-    if(!confirm('이 공유방에서 나갈까요? 방에서 나가면 내 이름과 전역일, 공유 휴가 일정이 팀 달력에서 제거됩니다.')) return;
-    try{
-      await ensureFirebaseAuth();
-      if(state.settings.roomKey && state.settings.memberId){
-        // 실제 문서 삭제 대신 active=false로 비활성화한다.
-        // 이렇게 하면 Firestore Rules/하위 문서 삭제 권한 문제와 무관하게
-        // 다른 팀원 화면에서 즉시 숨길 수 있다.
-        await setDoc(memberRef(state.settings.memberId),{
-          active:false,
-          updatedAt:serverTimestamp()
-        },{merge:true});
-        await setDoc(memberDataRef(state.settings.memberId),{
-          entries:[],
-          updatedAt:serverTimestamp()
-        },{merge:true});
-      }
-      clearTeamListeners();
-      state.settings.sharedOn=false; state.settings.roomCode=''; state.settings.roomPassword=''; state.settings.roomKey=''; state.settings.roomName=''; state.settings.memberId=''; state.settings.myColor='';
-      await save(); teamRoster=[]; teamData={}; $('teamOnCard').classList.add('hidden'); closeTeamForms();
-      alert('공유방에서 나왔습니다. 이제 팀 달력에서도 내 정보가 사라집니다.');
-    }catch(e){
-      console.error(e);
-      alert(`공유방에서 나가지 못했습니다.\n${e.code||e.message||e}`);
-    }
+    normalizeRooms();
+    const idx=state.settings.rooms.findIndex(r=>r.roomKey===state.settings.roomKey && r.memberId===state.settings.memberId);
+    if(idx>=0) await leaveRoom(idx);
   });
   $('teamRefreshBtn').addEventListener('click',refreshTeamData);
   $('teamCalPrev').addEventListener('click',()=>{teamCalCursor=new Date(teamCalCursor.getFullYear(),teamCalCursor.getMonth()-1,1);renderTeamCalendar();});
@@ -1402,6 +1548,8 @@ const db = getFirestore(firebaseApp);
       $('teamRoomCodeLabel').textContent=state.settings.roomCode || '-';
       $('teamRoomPasswordLabel').textContent=state.settings.roomPassword || '-';
       $('teamRoomNameLabel').textContent=state.settings.roomName || '공유 휴가방';
+      normalizeRooms();
+      renderRoomList();
       refreshTeamData();
       watchTeamRoom();
     } else {
